@@ -1,0 +1,34 @@
+pkgbase = virtualbox-modules-bede-lts
+	pkgver = 5.0.6
+	pkgrel = 1
+	url = http://virtualbox.org
+	arch = i686
+	arch = x86_64
+	license = GPL
+	makedepends = linux-bede-lts>=4.1.6
+	makedepends = linux-bede-lts<4.2
+	makedepends = linux-bede-lts-headers>=4.1
+	makedepends = linux-bede-lts-headers<4.2
+	makedepends = virtualbox-host-dkms>=5.0.6
+	makedepends = virtualbox-guest-dkms>=5.0.6
+	source = modules-load-virtualbox-bede-lts
+	source = 60-vboxguest.rules
+	sha256sums = 9b3c4dc5385fb3b4aeb841043384879c5c7ee926f5343d6a4177e913604f869d
+	sha256sums = 033c597e0f5285d2ddb0490868e5b6f945f45c7b1b1152a02a9e6fea438b2c95
+
+pkgname = virtualbox-modules-bede-lts-host
+	pkgdesc = Kernel host modules for VirtualBox (linux-bede-lts)
+	install = virtualbox-modules-bede-lts-host.install
+	license = GPL
+	depends = linux-bede-lts>=4.1
+	depends = linux-bede-lts<4.2
+	provides = virtualbox-host-modules=5.0.6
+
+pkgname = virtualbox-modules-bede-lts-guest
+	pkgdesc = Kernel guest modules for VirtualBox (linux-bede-lts)
+	install = virtualbox-modules-bede-lts-guest.install
+	license = GPL
+	depends = linux-bede-lts>=4.1
+	depends = linux-bede-lts<4.2
+	provides = virtualbox-guest-modules=5.0.6
+
