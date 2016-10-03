@@ -6,27 +6,37 @@
 
 pkgbase=virtualbox-modules-bede-lts
 pkgname=('virtualbox-modules-bede-lts-host' 'virtualbox-modules-bede-lts-guest')
-pkgver=5.0.16
+pkgver=5.1.6
+_extramodules=4.4-BEDE-LTS-external
+_current_linux_version=4.4.23
+_next_linux_version=4.5
 pkgrel=1
 arch=('i686' 'x86_64')
 url='http://virtualbox.org'
 license=('GPL')
-makedepends=('linux-bede-lts>=4.1.19' 'linux-bede-lts<4.2' 'linux-bede-lts-headers>=4.1' 'linux-bede-lts-headers<4.2'
+makedepends=(
+    "linux-bede-lts>=$_current_linux_version"
+    "linux-bede-lts-headers>=$_current_linux_version"
+    "linux-bede-lts<$_next_linux_version"
+    "linux-bede-lts-headers<$_next_linux_version"
     "virtualbox-host-dkms>=$pkgver"
-    "virtualbox-guest-dkms>=$pkgver")
+    "virtualbox-guest-dkms>=$pkgver"
+)
 source=('modules-load-virtualbox-bede-lts'
     '60-vboxguest.rules')
 sha256sums=('9b3c4dc5385fb3b4aeb841043384879c5c7ee926f5343d6a4177e913604f869d'
             '033c597e0f5285d2ddb0490868e5b6f945f45c7b1b1152a02a9e6fea438b2c95')
 
-_extramodules=4.1-BEDE-LTS-external
 
 package_virtualbox-modules-bede-lts-host() {
     pkgdesc="Kernel host modules for VirtualBox (linux-bede-lts)"
     license=('GPL')
     install=virtualbox-modules-bede-lts-host.install
-    depends=('linux-bede-lts>=4.1' 'linux-bede-lts<4.2')
-    provides=("virtualbox-host-modules=$pkgver")
+	depends=(
+        "linux-bede-lts>=$_current_linux_version"
+        "linux-bede-lts<$_next_linux_version"
+    )
+    provides=('VIRTUALBOX-HOST-MODULES')
 
     _kernver="$(cat /usr/lib/modules/${_extramodules}/version)"
 
@@ -46,8 +56,11 @@ package_virtualbox-modules-bede-lts-guest() {
     pkgdesc="Kernel guest modules for VirtualBox (linux-bede-lts)"
     license=('GPL')
     install=virtualbox-modules-bede-lts-guest.install
-    depends=('linux-bede-lts>=4.1' 'linux-bede-lts<4.2')
-    provides=("virtualbox-guest-modules=${pkgver}")
+	depends=(
+        "linux-bede-lts>=$_current_linux_version"
+        "linux-bede-lts<$_next_linux_version"
+    )
+    provides=('VIRTUALBOX-GUEST-MODULES')
 
     _kernver="$(cat /usr/lib/modules/${_extramodules}/version)"
 
