@@ -7,10 +7,10 @@
 pkgbase=virtualbox-modules-bede-lts
 pkgname=('virtualbox-modules-bede-lts-host' 'virtualbox-modules-bede-lts-guest')
 pkgver=5.1.14
-_extramodules=4.4-BEDE-LTS-external
-_current_linux_version=4.4.52
-_next_linux_version=4.5
-pkgrel=8
+_extramodules=4.9-BEDE-LTS-external
+_current_linux_version=4.9.13
+_next_linux_version=4.10
+pkgrel=9
 arch=('i686' 'x86_64')
 url='http://virtualbox.org'
 license=('GPL')
@@ -31,7 +31,6 @@ sha256sums=('9b3c4dc5385fb3b4aeb841043384879c5c7ee926f5343d6a4177e913604f869d'
 package_virtualbox-modules-bede-lts-host() {
     pkgdesc="Kernel host modules for VirtualBox (linux-bede-lts)"
     license=('GPL')
-    install=virtualbox-modules-bede-lts-host.install
 	depends=(
         "linux-bede-lts>=$_current_linux_version"
         "linux-bede-lts<$_next_linux_version"
@@ -48,14 +47,11 @@ package_virtualbox-modules-bede-lts-host() {
     # install config file in modules-load.d for out of the box experience
     install -Dm644 "$srcdir/modules-load-virtualbox-bede-lts" \
         "$pkgdir/usr/lib/modules-load.d/virtualbox-modules-bede-lts-host.conf"
-
-    sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "$startdir/virtualbox-modules-bede-lts-host.install"
 }
 
 package_virtualbox-modules-bede-lts-guest() {
     pkgdesc="Kernel guest modules for VirtualBox (linux-bede-lts)"
     license=('GPL')
-    install=virtualbox-modules-bede-lts-guest.install
 	depends=(
         "linux-bede-lts>=$_current_linux_version"
         "linux-bede-lts<$_next_linux_version"
@@ -71,7 +67,5 @@ package_virtualbox-modules-bede-lts-guest() {
 
     install -D -m 0644 "$srcdir/60-vboxguest.rules" \
         "$pkgdir/usr/lib/udev/rules.d/60-vboxguest-bede-lts.rules"
-
-    sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "$startdir/virtualbox-modules-bede-lts-guest.install"
 }
 
