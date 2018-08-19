@@ -10,7 +10,7 @@ pkgver=5.2.18
 _extramodules=4.14-BEDE-LTS-external
 _current_linux_version=4.14.65
 _next_linux_version=4.15
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
 url='http://virtualbox.org'
 license=('GPL')
@@ -42,7 +42,7 @@ package_virtualbox-modules-bede-lts-host() {
     install -dm755 "$pkgdir/usr/lib/modules/$_extramodules/vbox"
     cd "/var/lib/dkms/vboxhost/${pkgver}_OSE/$_kernver/$CARCH/module"
     install -m644 * "$pkgdir/usr/lib/modules/$_extramodules/vbox"
-    find "$pkgdir" -name '*.ko' -exec gzip -9 {} +
+    find "${pkgdir}" -name '*.ko' -exec xz {} +
 
     # install config file in modules-load.d for out of the box experience
     install -Dm644 "$srcdir/modules-load-virtualbox-bede-lts" \
@@ -63,7 +63,7 @@ package_virtualbox-modules-bede-lts-guest() {
     install -dm755 "$pkgdir/usr/lib/modules/$_extramodules/vbox"
     cd "/var/lib/dkms/vboxguest/${pkgver}_OSE/$_kernver/$CARCH/module"
     install -m644 * "$pkgdir/usr/lib/modules/$_extramodules/vbox"
-    find "$pkgdir" -name '*.ko' -exec gzip -9 {} +
+    find "${pkgdir}" -name '*.ko' -exec xz {} +
 
     install -D -m 0644 "$srcdir/60-vboxguest.rules" \
         "$pkgdir/usr/lib/udev/rules.d/60-vboxguest-bede-lts.rules"
