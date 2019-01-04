@@ -6,10 +6,10 @@
 pkgbase=virtualbox-modules-bede-lts
 pkgname=('virtualbox-modules-bede-lts-host' 'virtualbox-modules-bede-lts-guest')
 pkgver=6.0.0
-_extramodules=4.14-BEDE-LTS-external
-_current_linux_version=4.14.91
-_next_linux_version=4.15
-pkgrel=1
+_extramodules=4.19-BEDE-LTS-external
+_current_linux_version=4.19.13
+_next_linux_version=4.20
+pkgrel=2
 arch=('x86_64')
 url='http://virtualbox.org'
 license=('GPL')
@@ -60,7 +60,7 @@ package_virtualbox-modules-bede-lts-guest() {
     _kernver="$(cat /usr/lib/modules/${_extramodules}/version)"
 
     install -dm755 "$pkgdir/usr/lib/modules/$_extramodules/vbox"
-    cd "/var/lib/dkms/vboxguest/${pkgver}_OSE/$_kernver/$CARCH/module"
+    cd "/var/lib/dkms/vboxsf/${pkgver}_OSE/$_kernver/$CARCH/module"
     install -m644 * "$pkgdir/usr/lib/modules/$_extramodules/vbox"
     find "${pkgdir}" -name '*.ko' -exec xz {} +
 
