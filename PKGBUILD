@@ -9,7 +9,7 @@ pkgver=6.0.14
 _extramodules=4.19-BEDE-LTS-external
 _current_linux_version=4.19.83
 _next_linux_version=4.20
-pkgrel=5
+pkgrel=6
 arch=('x86_64')
 url='http://virtualbox.org'
 license=('GPL')
@@ -36,11 +36,15 @@ package_virtualbox-modules-bede-lts-host() {
     )
     provides=('VIRTUALBOX-HOST-MODULES')
 
-    _kernver="$(cat /usr/lib/modules/${_extramodules}/version)"
+    local kernver="$(</usr/src/linux-bede-lts/version)"
+    local extradir="/usr/lib/modules/$kernver/extramodules"
 
-    install -dm755 "$pkgdir/usr/lib/modules/$_extramodules/vbox"
-    cd "/var/lib/dkms/vboxhost/${pkgver}_OSE/$_kernver/$CARCH/module"
-    install -m644 * "$pkgdir/usr/lib/modules/$_extramodules/vbox"
+    # when dkms was used
+    cd "/var/lib/dkms/vboxhost/${pkgver}_OSE/$kernver/$CARCH/module"
+    # when build is used
+    #cd dkms/vboxhost/${pkgver}_OSE/$_kernver/$CARCH/module
+    install -dm755 "${pkgdir}${extradir}/$pkgname"
+    install -Dm644 * "${pkgdir}${extradir}/$pkgname/"
     find "${pkgdir}" -name '*.ko' -exec xz {} +
 
     # install config file in modules-load.d for out of the box experience
@@ -57,11 +61,12 @@ package_virtualbox-modules-bede-lts-guest() {
     )
     provides=('VIRTUALBOX-GUEST-MODULES')
 
-    _kernver="$(cat /usr/lib/modules/${_extramodules}/version)"
+    local kernver="$(</usr/src/linux-bede-lts/version)"
+    local extradir="/usr/lib/modules/$kernver/extramodules"
 
-    install -dm755 "$pkgdir/usr/lib/modules/$_extramodules/vbox"
-    cd "/var/lib/dkms/vboxsf/${pkgver}_OSE/$_kernver/$CARCH/module"
-    install -m644 * "$pkgdir/usr/lib/modules/$_extramodules/vbox"
+    cd "/var/lib/dkms/vboxsf/${pkgver}_OSE/$kernver/$CARCH/module"
+    install -dm755 "${pkgdir}${extradir}/$pkgname"
+    install -Dm644 * "${pkgdir}${extradir}/$pkgname/"
     find "${pkgdir}" -name '*.ko' -exec xz {} +
 
     install -D -m 0644 "$srcdir/60-vboxguest.rules" \
