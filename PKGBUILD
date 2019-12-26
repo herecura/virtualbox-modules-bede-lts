@@ -5,11 +5,11 @@
 
 pkgbase=virtualbox-modules-bede-lts
 pkgname=('virtualbox-modules-bede-lts-host' 'virtualbox-modules-bede-lts-guest')
-pkgver=6.0.14
-_extramodules=4.19-BEDE-LTS-external
-_current_linux_version=4.19.86
-_next_linux_version=4.20
-pkgrel=9
+pkgver=6.1.0
+_extramodules=5.4-BEDE-LTS-external
+_current_linux_version=5.4.6
+_next_linux_version=5.5
+pkgrel=2
 arch=('x86_64')
 url='http://virtualbox.org'
 license=('GPL')
@@ -21,10 +21,8 @@ makedepends=(
     "virtualbox-host-dkms>=$pkgver"
     "virtualbox-guest-dkms>=$pkgver"
 )
-source=('modules-load-virtualbox-bede-lts'
-    '60-vboxguest.rules')
-sha512sums=('e91bca3a219ea2fee594c43a9915d17381675dc3af4f0ba980b64e42fa7df28e38a7fcffa8089d8f859d532ae7b08ac7157afea4f3bf907136cb3abd1b4f4867'
-            '2e0a925a2bd13bf4e224ddbf1923effdfe673081e165927e9fc2a75550a2231f5262df26585d9efed79da3adff295cb631dd16831a4ece0ddea6d3b494809707')
+source=('modules-load-virtualbox-bede-lts')
+sha512sums=('e91bca3a219ea2fee594c43a9915d17381675dc3af4f0ba980b64e42fa7df28e38a7fcffa8089d8f859d532ae7b08ac7157afea4f3bf907136cb3abd1b4f4867')
 
 
 package_virtualbox-modules-bede-lts-host() {
@@ -68,8 +66,5 @@ package_virtualbox-modules-bede-lts-guest() {
     install -dm755 "${pkgdir}${extradir}/$pkgname"
     install -Dm644 * "${pkgdir}${extradir}/$pkgname/"
     find "${pkgdir}" -name '*.ko' -exec xz {} +
-
-    install -D -m 0644 "$srcdir/60-vboxguest.rules" \
-        "$pkgdir/usr/lib/udev/rules.d/60-vboxguest-bede-lts.rules"
 }
 
